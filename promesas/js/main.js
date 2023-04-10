@@ -2,6 +2,42 @@ let producto= [{"id":1,"title":"Fjallraven - Foldsack No. 1 Backpack, Fits 15 La
 
 
 //producto=null
+let tarjeta= document.getElementById("tarjeta")
+
+
+producto.forEach(producto => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+  
+    const image = document.createElement("img");
+    image.src = producto.image;
+    image.alt = producto.title;
+  
+    const title = document.createElement("h2");
+    title.textContent = producto.title;
+  
+    const category = document.createElement("h4")
+    category.textContent = producto.category;
+  
+    const price = document.createElement("p");
+    price.textContent = `$${producto.price}`;
+  
+    const description = document.createElement("p");
+    description.textContent = producto.description;
+  
+    card.appendChild(image);
+    card.appendChild(title);
+    card.appendChild(price);
+    card.appendChild(description);
+    card.appendChild(category);
+  
+    tarjeta.appendChild(card);
+    
+  });
+
+
+
+
 function getProducto(){
     return new Promise((resolve, reject) => { 
         if(producto==null){
@@ -9,10 +45,13 @@ function getProducto(){
         }
             setTimeout(()=>{
                 resolve (producto)
-            }, 5000)
+            }, 3000)
     })
 }     
 //console.log(getProducto())
 getProducto()
     .then( (prod)=> console.log(prod))
-    .catch( (err)=>console.log(err.message))
+    .catch( (err) => console.log(err.message) );
+
+    
+    
