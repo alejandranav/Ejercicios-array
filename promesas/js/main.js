@@ -2,43 +2,28 @@ let producto= [{"id":1,"title":"Fjallraven - Foldsack No. 1 Backpack, Fits 15 La
 
 
 //producto=null
-let tarjeta= document.getElementById("tarjeta")
+/*let tarjeta= document.getElementById("tarjeta")
 
 
 producto.forEach(producto => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-  
-    const image = document.createElement("img");
-    image.src = producto.image;
-    image.alt = producto.title;
-  
-    const title = document.createElement("h2");
-    title.textContent = producto.title;
-  
-    const category = document.createElement("h4")
-    category.textContent = producto.category;
-  
-    const price = document.createElement("p");
-    price.textContent = `$${producto.price}`;
-  
-    const description = document.createElement("p");
-    description.textContent = producto.description;
-  
-    card.appendChild(image);
-    card.appendChild(title);
-    card.appendChild(price);
-    card.appendChild(description);
-    card.appendChild(category);
-  
-    tarjeta.appendChild(card);
+    let row= `
+    <div class="card" style="width: 18rem;">
+  <img src="${r.image}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">${r.title}</h5>
+    <p class="card-text">${r.category}.</p>
+    <a href="#" class="btn btn-primary">${r.description}</a>
+  </div>
+</div>`
+tarjeta[0].insertAdjacentHTML("beforeend", row)
+
     
-  });
+  });*/
 
 
 
 
-function getProducto(){
+/*function getProducto(){
     return new Promise((resolve, reject) => { 
         if(producto==null){
             reject(new Error("Producto no existe"))
@@ -47,11 +32,47 @@ function getProducto(){
                 resolve (producto)
             }, 3000)
     })
-}     
+}     */
 //console.log(getProducto())
-getProducto()
-    .then( (prod)=> console.log(prod))
-    .catch( (err) => console.log(err.message) );
 
-    
+function getProducto(){ //fetch
+    let promesa= fetch("https://fakestoreapi.com/products/");
+    promesa.then( (response) => {
+        response.json().then((prods)=> {
+            createCards (prods)
+            console.log("prods=>json()");
+            console.log(prods);
+
+            }
+
+        )
+        .catch ((err)=> {
+            console.error("error en el formato de la respuesta: "+ err.message)
+        })
+    }
+    )
+    .catch ((error)=> {
+        console.error("error en el formato de la respuesta: "+ error.message)
+    })
+}
+
+
+
+getProducto();
+   // .then( (prod)=> console.log(prod))
+    //.catch( (err) => console.log(err.message) );
+
+   let mainProds= document.getElementById("mainProds")
+        function createCards(prods){
+            prods.forEach(prod => {
+                mainProds.insertAdjacentHTML("beforeend",
+                `<div class="card col" style="width: 18rem;">
+  <img src="${prod.image}" class="card-img-top" alt="${prod.description}">
+  <div class="card-body">
+    <h5 class="card-title">${prod.title}</h5>
+    <p class="card-text">${prod.category}</p>
+    <p class="card-text">${prod.description.slice(0,20)}...</p>
+  </div>
+</div>`)
+            })} 
     
